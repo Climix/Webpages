@@ -1,0 +1,128 @@
+<div id="background" onmousemove="All(event)" style="position absolute; left: 0%; top: 0%; width: 100%; height: 
+
+100%; background-color: white">
+<div id="demo"></div>
+<div id="BLOCK" style="position: absolute; left: 250px; top: 200px; width: 200px; height: 70px; background-
+
+color: yellow; transform: translate(-50%, -50%); transform-origin: 0% 0%;"></div>
+
+<div id="BLOCK2" style="position: absolute; left: 0px; top: 0px; width: 70px; height: 18px; background-color: 
+
+blue; transform: translate(-50%, -50%); transform-origin: 0% 0%;"></div>
+
+</div>
+
+<script>
+
+
+var x, y;
+var angle = 40;
+var angle2 = 10;
+var Stop = 1;
+
+
+
+window.onload = function() {
+  BLOCK.pt1x = -BLOCK.clientWidth/2;
+  BLOCK.pt1y = -BLOCK.clientHeight/2;
+
+  BLOCK.pt2x = BLOCK.clientWidth/2;
+  BLOCK.pt2y = BLOCK.clientHeight/2;
+  
+  BLOCK2.pt1x = -BLOCK2.clientWidth/2;
+  BLOCK2.pt1y = -BLOCK2.clientHeight/2;
+
+  BLOCK2.pt2x = BLOCK2.clientWidth/2;
+  BLOCK2.pt2y = BLOCK2.clientHeight/2;
+}
+
+
+
+
+setInterval(function () {All()}, 10)
+
+
+
+
+function StopRotation() {Stop = Stop * -1; keyS = 2;}
+
+var keyA, keyD, keyS;
+
+function All(event) {
+  BLOCK2.style.left = x; BLOCK2.style.top = y;
+  BLOCK2.style.transform = "rotate(" + angle2 + "deg) translate(-50%, -50%)";
+
+
+document.onclick = function() {Stop = Stop * -1};
+
+
+document.onkeydown = function(e) {
+    switch (e.keyCode) {
+        case 65:
+            keyA = 1;
+            break;
+        case 68:
+            keyD = 1;
+            break;
+        case 83:
+            keyS = 1;
+            break;
+    }
+};
+document.onkeyup = function(e) {
+    switch (e.keyCode) {
+        case 65:
+            keyA = 0;
+            break;
+        case 68:
+            keyD = 0;
+            break;
+        case 83:
+            keyS = 0;
+            break;
+    }
+    document.focus();
+};
+
+
+if (keyA == 1) {angle2 += 2}; if (keyD == 1) {angle2 -= 2};
+if (keyS == 1) {StopRotation()};
+
+
+
+
+
+
+
+if (event) {
+    x = event.clientX;
+    y = event.clientY;
+} else {
+
+
+if (Stop > 0) {
+angle++; BLOCK.style.transform = "rotate(" + angle + "deg) translate(-50%, -50%)";
+}
+
+var relativeX = (x - parseFloat(BLOCK.style.left)) * Math.cos(-angle / 180 * Math.PI) - (y - parseFloat
+
+(BLOCK.style.top)) * Math.sin(-angle / 180 * Math.PI);
+
+var relativeY = (x - parseFloat(BLOCK.style.left)) * Math.sin(-angle / 180 * Math.PI) + (y - parseFloat
+
+(BLOCK.style.top)) * Math.cos(-angle / 180 * Math.PI);
+
+
+
+if (relativeX >= BLOCK.pt1x && relativeX <= BLOCK.pt2x &&
+    relativeY >= BLOCK.pt1y && relativeY <= BLOCK.pt2y)
+
+{BLOCK.style.backgroundColor = "red"} else {BLOCK.style.backgroundColor = "yellow"}
+
+
+demo.innerHTML = "---aaaa---! </br> Mouse coords: " + x + "|||" + y + "</br> Relative coords: " + 
+
+relativeX.toFixed(0) + "|||" + relativeY.toFixed(0) + keyS;
+  }
+}
+</script>
